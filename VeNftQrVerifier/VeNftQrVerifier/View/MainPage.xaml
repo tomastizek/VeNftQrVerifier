@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="VeNftQrVerifier.View.MainPage">
+
+    <StackLayout BackgroundColor="White">
+        <Image Source="https://upload.wikimedia.org/wikipedia/commons/2/24/NFT_Icon.png" Scale="0.7"/>
+
+        <Button Text="Verify ticket" Command="{Binding VerifyCommand}" Scale="2" HorizontalOptions="Center"  VerticalOptions="Center"/>
+
+    </StackLayout>
+
+</ContentPage>

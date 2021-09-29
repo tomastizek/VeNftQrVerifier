@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="VeNftQrVerifier.View.InfoPage"
+             BackgroundColor="White">
+    
+    <ContentPage.Content>
+
+        
+
+
+            <StackLayout                    
+                     VerticalOptions="StartAndExpand"
+                     BackgroundColor="{Binding TicketBackroudColor,Mode=TwoWay}"
+                     
+                    
+            >
+
+
+            <Label Text="{Binding LoadedNFT.Name}" TextColor="White" HorizontalTextAlignment="Center" FontSize="25"/>
+            <Label Text="{Binding LoadedNFT.Author}" TextColor="White" HorizontalTextAlignment="Center"/>
+            <Image Source="{Binding LoadedNFT.ImageLink}" HorizontalOptions="Center" WidthRequest="150" HeightRequest="150" />
+            <Label Text="{Binding LoadedNFT.Description}" TextColor="White" HorizontalTextAlignment="Center" FontSize="20"/>
+
+
+
+            <Image Source="{Binding StateOfTicketImage}" HorizontalOptions="Center"/>
+
+            <ScrollView>
+                <StackLayout BackgroundColor="White">
+                    <Label Text="{Binding LoadedNFT.TypeText}" TextColor="Black" HorizontalTextAlignment="Center" FontSize="20"/>
+                    <Label Text="{Binding LoadedNFT.TicketClass}" TextColor="Black" HorizontalTextAlignment="Center" FontSize="20"/>
+                    <Label Text="{Binding LoadedNFT.Time}" TextColor="Black" HorizontalTextAlignment="Center" FontSize="20"/>
+                    <Label Text="{Binding LoadedNFT.TicketDuration}" TextColor="Black" HorizontalTextAlignment="Center" FontSize="20"/>
+                    <Label Text="{Binding LoadedNFT.Location}" TextColor="Black" HorizontalTextAlignment="Center" FontSize="20"/>
+                    <Label Text="{Binding LoadedNFT.LocationCoordinates}" TextColor="Black" HorizontalTextAlignment="Center" FontSize="20"/>
+
+                </StackLayout>
+            
+            </ScrollView>
+
+            <Button Text="Scan next ticket" Command="{Binding ScanNextTicket}" FontSize="20"/>
+
+
+
+
+        </StackLayout>
+        
+
+
+    </ContentPage.Content>
+</ContentPage>
