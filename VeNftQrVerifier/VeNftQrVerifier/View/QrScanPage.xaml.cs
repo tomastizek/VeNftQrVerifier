@@ -86,10 +86,11 @@ namespace VeNftQrVerifier.View
                     {
                         if (!await App.Current.MainPage.DisplayAlert("Invalid Qr code", "Qr code does not cotain valid NFT address!", null, "OK"))
                         {
+                            //App goes back to main page
                             await Navigation.PopModalAsync();
                             
                             
-
+                            
                         }
 
 
