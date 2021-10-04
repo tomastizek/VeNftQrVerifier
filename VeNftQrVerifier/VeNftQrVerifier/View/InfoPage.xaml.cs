@@ -15,10 +15,10 @@ namespace VeNftQrVerifier.View
     {
         InfoPageVM infoPageVM;
 
-        public InfoPage(string QrLoadedNFT)
+        public InfoPage(OwnershipVerificationCodeDto Dto)
         {
             InitializeComponent();
-            infoPageVM = new InfoPageVM(QrLoadedNFT);
+            infoPageVM = new InfoPageVM(Dto);
             BindingContext = infoPageVM;
 
         }

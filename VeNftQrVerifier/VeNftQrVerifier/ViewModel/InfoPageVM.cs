@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VEDriversLite.NFT;
 using VeNftQrVerifier.View;
+using VeNftQrVerifier.Services;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -16,15 +17,56 @@ namespace VeNftQrVerifier.ViewModel
     public class InfoPageVM : INotifyPropertyChanged
     {
 
-        private string _qrLoadedNFT;
+        private OwnershipVerificationCodeDto _dto;
         private string _nFTName;
         private TicketNFT _loadedNFT;
         private Color _ticketBackgroundColor;
         private ImageSource _stateOfTicketImage;
         private string _stateOfTicket;
+        private VerifyNFTTicketDto _verifiedTicket;
 
-      
+        private string eventId = "848ed3dc2847dc8aaad544ef93c5e474b9720c63e0c323dc4c136942ce25c30b";
+        private string mintingAddress = "NgUzHT14rAs8ft3hanuV2do8nTAtHzSLvJ";
 
+        public VerifyNFTTicketDto VerifiedTicket
+        {
+            get { return _verifiedTicket; }
+            set
+            {
+                _verifiedTicket = value;
+                OnPropertyChanged("VerifiedTicket");
+
+                if (VerifiedTicket != null && VerifiedTicket.IsSignatureValid)
+                {
+                    Task.Run(async () =>
+                    {
+                        try
+                        {   
+                            LoadedNFT = await GetNFTAsync(Dto.TxId);
+                            
+                        }
+                        catch (System.Exception ex)
+                        {
+                            System.Console.WriteLine(ex.Message);
+                        }
+
+
+                    });
+
+                    Uri imageUri = new Uri("https://www.shareicon.net/data/256x256/2016/08/20/817720_check_395x512.png");
+                    StateOfTicketImage = ImageSource.FromUri(imageUri);
+                    StateOfTicket = "Ticket is valid!";
+
+                }
+                else
+                {
+                    Uri imageUri = new Uri("https://www.shareicon.net/data/256x256/2016/08/20/817726_close_395x512.png");
+                    StateOfTicketImage = ImageSource.FromUri(imageUri);
+                    StateOfTicket = "Ticket not used or allready expired!";
+                }
+
+            }
+        }
 
         public TicketNFT LoadedNFT
         {
@@ -34,22 +76,7 @@ namespace VeNftQrVerifier.ViewModel
                 _loadedNFT = value;
                 OnPropertyChanged("LoadedNFT");
                 NFTName = LoadedNFT.Name;
-                Debug.WriteLine(LoadedNFT.ImageLink);
-
-                if (LoadedNFT.Used)
-                {
-                    TicketBackroudColor = Color.Red;
-                    Uri imageUri = new Uri("https://www.shareicon.net/data/256x256/2016/08/20/817726_close_395x512.png");
-                    StateOfTicketImage = ImageSource.FromUri(imageUri);
-                    StateOfTicket = "Ticket allready used!";
-                }
-                else
-                {
-                    TicketBackroudColor = Color.Green;
-                    Uri imageUri = new Uri("https://www.shareicon.net/data/256x256/2016/08/20/817720_check_395x512.png");
-                    StateOfTicketImage = ImageSource.FromUri(imageUri);
-                    StateOfTicket = "Ticket is valid!";
-                }
+               
 
 
 
@@ -101,16 +128,13 @@ namespace VeNftQrVerifier.ViewModel
         }
 
 
-        public string QrLoadedNft
+        public OwnershipVerificationCodeDto Dto
         {
-            get { return _qrLoadedNFT; }
+            get { return _dto; }
             set
             {
-                _qrLoadedNFT = value;
-                OnPropertyChanged("QrLoadedNft");
-
-
-
+                _dto = value;
+                OnPropertyChanged("Dto");
 
             }
         }
@@ -126,13 +150,27 @@ namespace VeNftQrVerifier.ViewModel
         }
 
 
-        public InfoPageVM(string qrLoadedNFT)
+        public InfoPageVM(OwnershipVerificationCodeDto dto)
         {
+
+
             if (CrossConnectivity.Current.IsConnected)
             {
-                QrLoadedNft = qrLoadedNFT;
+                Dto = dto;
 
-                Task.Run(async () => { LoadedNFT = await GetNFTAsync(qrLoadedNFT); });
+                Task.Run(async () => 
+                {
+                    try
+                    {
+                        VerifiedTicket = await NFTTicketVerifier.LoadNFTTicketToVerify(dto, eventId, new List<string> { mintingAddress });
+                    }
+                    catch (System.Exception ex)
+                    {
+                        System.Console.WriteLine(ex.Message);
+                    }
+
+                
+                });
             }
             else
             {

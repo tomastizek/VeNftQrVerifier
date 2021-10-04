@@ -52,7 +52,7 @@ namespace VeNftQrVerifier.View
         /// <param name="e"></param>
         private async void CameraView_OnDetected(object sender, GoogleVisionBarCodeScanner.OnDetectedEventArg e)
         {
-            string txId = string.Empty;
+            OwnershipVerificationCodeDto dto = new OwnershipVerificationCodeDto();
 
             List<GoogleVisionBarCodeScanner.BarcodeResult> obj = e.BarcodeResults;
 
@@ -70,9 +70,9 @@ namespace VeNftQrVerifier.View
 
                     try
                     {
-                        txId = JsonConvert.DeserializeObject<NftQr>(result).TxId;
+                        dto = JsonConvert.DeserializeObject<OwnershipVerificationCodeDto>(result);
 
-                        await App.Current.MainPage.Navigation.PushModalAsync(new InfoPage(txId));
+                        await App.Current.MainPage.Navigation.PushModalAsync(new InfoPage(dto));
                     }
                     finally
                     {

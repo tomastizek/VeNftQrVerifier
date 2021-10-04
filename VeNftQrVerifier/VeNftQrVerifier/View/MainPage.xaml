@@ -4,9 +4,9 @@
              x:Class="VeNftQrVerifier.View.MainPage">
 
     <StackLayout BackgroundColor="White">
-        <Image Source="https://upload.wikimedia.org/wikipedia/commons/2/24/NFT_Icon.png" Scale="0.7"/>
+        <Image Source="https://ve-nft.com/images/Stacked-Slogan_Dark.png" Scale="1.5" Margin="0,80,0,0" VerticalOptions="Start" />
 
-        <Button Text="Verify ticket" Command="{Binding VerifyCommand}" Scale="2" HorizontalOptions="Center"  VerticalOptions="Center"/>
+        <Button Text="Verify ticket" Command="{Binding VerifyCommand}" Scale="2" HorizontalOptions="Center"  VerticalOptions="CenterAndExpand" Margin="0,-70,0,0"/>
 
     </StackLayout>
 
